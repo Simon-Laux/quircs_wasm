@@ -5,6 +5,7 @@
 - [X] Basic functionality
 - [ ] typescript typings
 
+<img src="example.png" />
 
 ## 🚴 Usage
 
