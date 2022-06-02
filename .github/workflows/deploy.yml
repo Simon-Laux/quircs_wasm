@@ -1,0 +1,35 @@
+name: Build & Deploy wasm Example
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+
+      - uses: jetli/wasm-pack-action@v0.3.0
+        with:
+          version: "latest"
+
+      - name: checkout
+        uses: actions/checkout@v2.3.1
+
+      - name: build
+        run: |
+          cd example
+          npm run build
+          mkdir public54678
+          cp index.html public54678
+          cp bundle.js public54678
+          cp quircs_wasm_bg.wasm public54678
+
+      - name: deploy
+        uses: JamesIves/github-pages-deploy-action@4.1.4
+        with:
+          branch: gh-pages # The branch the action should deploy to.
+          folder: example/public54678 # The folder the action should deploy.
