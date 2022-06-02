@@ -22,6 +22,7 @@ jobs:
       - name: build
         run: |
           cd example
+          npm i
           npm run build
           mkdir public54678
           cp index.html public54678
