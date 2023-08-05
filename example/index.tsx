@@ -97,7 +97,7 @@ function QR_CodeReader() {
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
       const img_data = context.getImageData(0, 0, canvas.width, canvas.height);
       if (videoElement.current.srcObject) {
-        const res = read_qrcodes_from_image_data(img_data);
+        const res = read_qrcodes_from_image_data(img_data, true);
         console.log({ res });
         var context = canvasElement2.current.getContext("2d");
         context.clearRect(0, 0, canvas.width, canvas.height);
@@ -161,7 +161,7 @@ function QR_CodeReader() {
         set_qr_codes(codes);
 
         var context = canvasElement3.current.getContext("2d");
-        context.putImageData(luma_image_data(img_data), 0, 0);
+        context.putImageData(luma_image_data(img_data, true, false), 0, 0);
       }
     };
 
