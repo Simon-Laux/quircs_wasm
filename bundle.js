@@ -22606,8 +22606,8 @@
     dropObject(idx);
     return ret;
   }
-  function read_qrcodes_from_image_data(img) {
-    const ret = wasm.read_qrcodes_from_image_data(addHeapObject(img));
+  function read_qrcodes_from_image_data(img, process_image_to_find_more) {
+    const ret = wasm.read_qrcodes_from_image_data(addHeapObject(img), process_image_to_find_more);
     return takeObject(ret);
   }
   var cachedInt32Memory0 = null;
@@ -22617,10 +22617,10 @@
     }
     return cachedInt32Memory0;
   }
-  function luma_image_data(img) {
+  function luma_image_data(img, threshold, inverted) {
     try {
       const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-      wasm.luma_image_data(retptr, addHeapObject(img));
+      wasm.luma_image_data(retptr, addHeapObject(img), threshold, inverted);
       var r0 = getInt32Memory0()[retptr / 4 + 0];
       var r1 = getInt32Memory0()[retptr / 4 + 1];
       var r2 = getInt32Memory0()[retptr / 4 + 2];
@@ -22808,7 +22808,7 @@
         context.drawImage(video, 0, 0, canvas.width, canvas.height);
         const img_data = context.getImageData(0, 0, canvas.width, canvas.height);
         if (videoElement.current.srcObject) {
-          const res = read_qrcodes_from_image_data(img_data);
+          const res = read_qrcodes_from_image_data(img_data, true);
           console.log({ res });
           var context = canvasElement2.current.getContext("2d");
           context.clearRect(0, 0, canvas.width, canvas.height);
@@ -22861,7 +22861,7 @@
           }
           set_qr_codes(codes);
           var context = canvasElement3.current.getContext("2d");
-          context.putImageData(luma_image_data(img_data), 0, 0);
+          context.putImageData(luma_image_data(img_data, true, false), 0, 0);
         }
       };
       setInterval(scan, 250);
