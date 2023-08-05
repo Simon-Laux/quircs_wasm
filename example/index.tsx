@@ -93,7 +93,7 @@ function QR_CodeReader() {
       const canvas = canvasElement.current;
       const video = videoElement.current;
 
-      var context = canvas.getContext("2d");
+      var context = canvas.getContext("2d", {willReadFrequently: true, alpha: false, desynchronized: true});
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
       const img_data = context.getImageData(0, 0, canvas.width, canvas.height);
       if (videoElement.current.srcObject) {
@@ -105,7 +105,7 @@ function QR_CodeReader() {
           codes = [];
         for (let qr of res) {
           context.lineWidth = 10;
-          if (qr.data["Ok"]) {
+          if (qr.data["content"]) {
             context.strokeStyle = "green";
           } else {
             context.strokeStyle = "red";
@@ -139,27 +139,20 @@ function QR_CodeReader() {
           context.fillStyle = "white";
           const x = qr.corners[0].x + 5;
           const y = qr.corners[0].y + 45;
-          if (qr.data["Ok"]) {
-            context.fillText(`version: ${qr.data.Ok.version}`, x, y + 20);
-            context.fillText(`mask: ${qr.data.Ok.mask}`, x, y + 20 * 2);
-            context.fillText(
-              `ecc_level: ${qr.data.Ok.ecc_level}`,
-              x,
-              y + 20 * 3
-            );
-            context.fillText(
-              `data_type: ${qr.data.Ok.data_type}`,
-              x,
-              y + 20 * 4
-            );
-
-            let payload = qr.data.Ok.payload;
-            codes.push(`${i}: ${String.fromCharCode.apply(null, payload)}`);
-          } else {
-            console.log(qr.data["Error"]);
+          if (qr.data["error"]) {
+            const error = qr.data["error"];
+            console.log(error);
             context.fillStyle = "orange";
-            context.fillText(qr.data["Error"], x, y + 20);
-            codes.push(`${i}: [Error]: ${qr.data["Error"]}`);
+            context.fillText(error, x, y + 20);
+            codes.push(`${i}: [Error]: ${error}`);
+          } else {
+            const data = qr.data["content"];
+            context.fillText(`version: ${data.version}`, x, y + 20);
+            context.fillText(`mask: ${data.mask}`, x, y + 20 * 2);
+            context.fillText(`ecc_level: ${data.ecc_level}`, x, y + 20 * 3);
+            context.fillText(`data_type: ${data.data_type}`, x, y + 20 * 4);
+            let payload = data.payload;
+            codes.push(`${i}: ${String.fromCharCode.apply(null, payload)}`);
           }
 
           i++;

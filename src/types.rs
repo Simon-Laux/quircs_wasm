@@ -17,14 +17,15 @@ impl From<quircs::Point> for Point {
 
 #[derive(Tsify, Debug, Serialize)]
 #[tsify(into_wasm_abi)]
+#[serde(rename_all = "lowercase")]
 pub enum QRCodeDecodingResult {
-    Ok(Data),
+    Content(Data),
     Error(String),
 }
 
 impl From<quircs::Data> for QRCodeDecodingResult {
     fn from(data: quircs::Data) -> Self {
-        QRCodeDecodingResult::Ok(Data {
+        QRCodeDecodingResult::Content(Data {
             version: data.version,
             ecc_level: match data.ecc_level {
                 quircs::EccLevel::M => EccLevel::M,
