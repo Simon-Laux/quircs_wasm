@@ -1,6 +1,5 @@
 mod utils;
 
-use quircs::CodeIter;
 use types::ScanResult;
 use wasm_bindgen::{prelude::*, Clamped};
 use web_sys::ImageData;
