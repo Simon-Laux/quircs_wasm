@@ -1,6 +1,9 @@
 use serde::Serialize;
+use tsify::Tsify;
+use wasm_bindgen::prelude::*;
 
-#[derive(Debug, Serialize)]
+#[derive(Tsify, Debug, Serialize)]
+#[tsify(into_wasm_abi)]
 pub struct Point {
     pub x: i32,
     pub y: i32,
@@ -12,7 +15,8 @@ impl From<quircs::Point> for Point {
     }
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Tsify, Debug, Serialize)]
+#[tsify(into_wasm_abi)]
 pub enum QRCodeDecodingResult {
     Ok(Data),
     Error(String),
@@ -41,14 +45,20 @@ impl From<quircs::Data> for QRCodeDecodingResult {
     }
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Tsify, Debug, Serialize)]
+#[tsify(into_wasm_abi)]
 pub struct QRCode {
     pub corners: [Point; 4],
     pub data: QRCodeDecodingResult,
 }
 
+#[derive(Tsify, Debug, Serialize)]
+#[tsify(into_wasm_abi)]
+pub struct ScanResult(pub Vec<QRCode>);
+
 /// QR-code ECC types.
-#[derive(Debug, Clone, Serialize)]
+#[derive(Tsify, Debug, Clone, Serialize)]
+#[tsify(into_wasm_abi)]
 pub enum EccLevel {
     M = 0,
     L = 1,
@@ -57,7 +67,8 @@ pub enum EccLevel {
 }
 
 /// QR-code data types.
-#[derive(Debug, Clone, Serialize)]
+#[derive(Tsify, Debug, Clone, Serialize)]
+#[tsify(into_wasm_abi)]
 #[repr(i32)]
 pub enum DataType {
     Numeric = 1,
@@ -68,7 +79,8 @@ pub enum DataType {
 }
 
 /// This structure holds the decoded QR-code data
-#[derive(Debug, Clone, Serialize)]
+#[derive(Tsify, Debug, Clone, Serialize)]
+#[tsify(into_wasm_abi)]
 pub struct Data {
     ///  Various parameters of the QR-code. These can mostly be  ignored
     /// if you only care about the data.

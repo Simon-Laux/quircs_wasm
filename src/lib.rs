@@ -1,5 +1,6 @@
 mod utils;
 
+use types::ScanResult;
 use wasm_bindgen::{prelude::*, Clamped};
 use web_sys::ImageData;
 
@@ -12,7 +13,7 @@ static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 mod types;
 
 #[wasm_bindgen]
-pub fn read_qrcodes_from_image_data(img: ImageData) -> JsValue {
+pub fn read_qrcodes_from_image_data(img: ImageData) -> ScanResult {
     let image_buffer = image::RgbaImage::from_raw(img.width(), img.height(), img.data().to_vec())
         .expect("read image");
     let image = image::DynamicImage::from(image_buffer);
@@ -38,8 +39,7 @@ pub fn read_qrcodes_from_image_data(img: ImageData) -> JsValue {
             })
         }
     });
-
-    JsValue::from_serde(&result).expect("conversion to js")
+    ScanResult(result)
 }
 
 #[wasm_bindgen]
