@@ -323,9 +323,9 @@
                 case REACT_LAZY_TYPE: {
                   var lazyComponent = type;
                   var payload = lazyComponent._payload;
-                  var init2 = lazyComponent._init;
+                  var init = lazyComponent._init;
                   try {
-                    return getComponentNameFromType(init2(payload));
+                    return getComponentNameFromType(init(payload));
                   } catch (x) {
                     return null;
                   }
@@ -998,9 +998,9 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useState(initialState);
           }
-          function useReducer(reducer, initialArg, init2) {
+          function useReducer(reducer, initialArg, init) {
             var dispatcher = resolveDispatcher();
-            return dispatcher.useReducer(reducer, initialArg, init2);
+            return dispatcher.useReducer(reducer, initialArg, init);
           }
           function useRef2(initialValue) {
             var dispatcher = resolveDispatcher();
@@ -1290,9 +1290,9 @@
                 case REACT_LAZY_TYPE: {
                   var lazyComponent = type;
                   var payload = lazyComponent._payload;
-                  var init2 = lazyComponent._init;
+                  var init = lazyComponent._init;
                   try {
-                    return describeUnknownElementTypeFrameInDEV(init2(payload), source, ownerFn);
+                    return describeUnknownElementTypeFrameInDEV(init(payload), source, ownerFn);
                   } catch (x) {
                   }
                 }
@@ -3159,9 +3159,9 @@
                 case REACT_LAZY_TYPE: {
                   var lazyComponent = type;
                   var payload = lazyComponent._payload;
-                  var init2 = lazyComponent._init;
+                  var init = lazyComponent._init;
                   try {
-                    return describeUnknownElementTypeFrameInDEV(init2(payload), source, ownerFn);
+                    return describeUnknownElementTypeFrameInDEV(init(payload), source, ownerFn);
                   } catch (x) {
                   }
                 }
@@ -3265,9 +3265,9 @@
                 case REACT_LAZY_TYPE: {
                   var lazyComponent = type;
                   var payload = lazyComponent._payload;
-                  var init2 = lazyComponent._init;
+                  var init = lazyComponent._init;
                   try {
-                    return getComponentNameFromType(init2(payload));
+                    return getComponentNameFromType(init(payload));
                   } catch (x) {
                     return null;
                   }
@@ -12425,8 +12425,8 @@
           }
           function resolveLazy(lazyType) {
             var payload = lazyType._payload;
-            var init2 = lazyType._init;
-            return init2(payload);
+            var init = lazyType._init;
+            return init(payload);
           }
           function ChildReconciler(shouldTrackSideEffects) {
             function deleteChild(returnFiber, childToDelete) {
@@ -12573,8 +12573,8 @@
                   }
                   case REACT_LAZY_TYPE: {
                     var payload = newChild._payload;
-                    var init2 = newChild._init;
-                    return createChild(returnFiber, init2(payload), lanes);
+                    var init = newChild._init;
+                    return createChild(returnFiber, init(payload), lanes);
                   }
                 }
                 if (isArray(newChild) || getIteratorFn(newChild)) {
@@ -12617,8 +12617,8 @@
                   }
                   case REACT_LAZY_TYPE: {
                     var payload = newChild._payload;
-                    var init2 = newChild._init;
-                    return updateSlot(returnFiber, oldFiber, init2(payload), lanes);
+                    var init = newChild._init;
+                    return updateSlot(returnFiber, oldFiber, init(payload), lanes);
                   }
                 }
                 if (isArray(newChild) || getIteratorFn(newChild)) {
@@ -12653,8 +12653,8 @@
                   }
                   case REACT_LAZY_TYPE:
                     var payload = newChild._payload;
-                    var init2 = newChild._init;
-                    return updateFromMap(existingChildren, returnFiber, newIdx, init2(payload), lanes);
+                    var init = newChild._init;
+                    return updateFromMap(existingChildren, returnFiber, newIdx, init(payload), lanes);
                 }
                 if (isArray(newChild) || getIteratorFn(newChild)) {
                   var _matchedFiber3 = existingChildren.get(newIdx) || null;
@@ -12695,8 +12695,8 @@
                     break;
                   case REACT_LAZY_TYPE:
                     var payload = child._payload;
-                    var init2 = child._init;
-                    warnOnInvalidKey(init2(payload), knownKeys, returnFiber);
+                    var init = child._init;
+                    warnOnInvalidKey(init(payload), knownKeys, returnFiber);
                     break;
                 }
               }
@@ -13021,8 +13021,8 @@
                     return placeSingleChild(reconcileSinglePortal(returnFiber, currentFirstChild, newChild, lanes));
                   case REACT_LAZY_TYPE:
                     var payload = newChild._payload;
-                    var init2 = newChild._init;
-                    return reconcileChildFibers2(returnFiber, currentFirstChild, init2(payload), lanes);
+                    var init = newChild._init;
+                    return reconcileChildFibers2(returnFiber, currentFirstChild, init(payload), lanes);
                 }
                 if (isArray(newChild)) {
                   return reconcileChildrenArray(returnFiber, currentFirstChild, newChild, lanes);
@@ -13484,11 +13484,11 @@
           function basicStateReducer(state, action) {
             return typeof action === "function" ? action(state) : action;
           }
-          function mountReducer(reducer, initialArg, init2) {
+          function mountReducer(reducer, initialArg, init) {
             var hook = mountWorkInProgressHook();
             var initialState;
-            if (init2 !== void 0) {
-              initialState = init2(initialArg);
+            if (init !== void 0) {
+              initialState = init(initialArg);
             } else {
               initialState = initialArg;
             }
@@ -13505,7 +13505,7 @@
             var dispatch = queue.dispatch = dispatchReducerAction.bind(null, currentlyRenderingFiber$1, queue);
             return [hook.memoizedState, dispatch];
           }
-          function updateReducer(reducer, initialArg, init2) {
+          function updateReducer(reducer, initialArg, init) {
             var hook = updateWorkInProgressHook();
             var queue = hook.queue;
             if (queue === null) {
@@ -13603,7 +13603,7 @@
             var dispatch = queue.dispatch;
             return [hook.memoizedState, dispatch];
           }
-          function rerenderReducer(reducer, initialArg, init2) {
+          function rerenderReducer(reducer, initialArg, init) {
             var hook = updateWorkInProgressHook();
             var queue = hook.queue;
             if (queue === null) {
@@ -14314,13 +14314,13 @@
                   ReactCurrentDispatcher$1.current = prevDispatcher;
                 }
               },
-              useReducer: function(reducer, initialArg, init2) {
+              useReducer: function(reducer, initialArg, init) {
                 currentHookNameInDev = "useReducer";
                 mountHookTypesDev();
                 var prevDispatcher = ReactCurrentDispatcher$1.current;
                 ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnMountInDEV;
                 try {
-                  return mountReducer(reducer, initialArg, init2);
+                  return mountReducer(reducer, initialArg, init);
                 } finally {
                   ReactCurrentDispatcher$1.current = prevDispatcher;
                 }
@@ -14418,13 +14418,13 @@
                   ReactCurrentDispatcher$1.current = prevDispatcher;
                 }
               },
-              useReducer: function(reducer, initialArg, init2) {
+              useReducer: function(reducer, initialArg, init) {
                 currentHookNameInDev = "useReducer";
                 updateHookTypesDev();
                 var prevDispatcher = ReactCurrentDispatcher$1.current;
                 ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnMountInDEV;
                 try {
-                  return mountReducer(reducer, initialArg, init2);
+                  return mountReducer(reducer, initialArg, init);
                 } finally {
                   ReactCurrentDispatcher$1.current = prevDispatcher;
                 }
@@ -14522,13 +14522,13 @@
                   ReactCurrentDispatcher$1.current = prevDispatcher;
                 }
               },
-              useReducer: function(reducer, initialArg, init2) {
+              useReducer: function(reducer, initialArg, init) {
                 currentHookNameInDev = "useReducer";
                 updateHookTypesDev();
                 var prevDispatcher = ReactCurrentDispatcher$1.current;
                 ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnUpdateInDEV;
                 try {
-                  return updateReducer(reducer, initialArg, init2);
+                  return updateReducer(reducer, initialArg, init);
                 } finally {
                   ReactCurrentDispatcher$1.current = prevDispatcher;
                 }
@@ -14626,13 +14626,13 @@
                   ReactCurrentDispatcher$1.current = prevDispatcher;
                 }
               },
-              useReducer: function(reducer, initialArg, init2) {
+              useReducer: function(reducer, initialArg, init) {
                 currentHookNameInDev = "useReducer";
                 updateHookTypesDev();
                 var prevDispatcher = ReactCurrentDispatcher$1.current;
                 ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnRerenderInDEV;
                 try {
-                  return rerenderReducer(reducer, initialArg, init2);
+                  return rerenderReducer(reducer, initialArg, init);
                 } finally {
                   ReactCurrentDispatcher$1.current = prevDispatcher;
                 }
@@ -14738,14 +14738,14 @@
                   ReactCurrentDispatcher$1.current = prevDispatcher;
                 }
               },
-              useReducer: function(reducer, initialArg, init2) {
+              useReducer: function(reducer, initialArg, init) {
                 currentHookNameInDev = "useReducer";
                 warnInvalidHookAccess();
                 mountHookTypesDev();
                 var prevDispatcher = ReactCurrentDispatcher$1.current;
                 ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnMountInDEV;
                 try {
-                  return mountReducer(reducer, initialArg, init2);
+                  return mountReducer(reducer, initialArg, init);
                 } finally {
                   ReactCurrentDispatcher$1.current = prevDispatcher;
                 }
@@ -14859,14 +14859,14 @@
                   ReactCurrentDispatcher$1.current = prevDispatcher;
                 }
               },
-              useReducer: function(reducer, initialArg, init2) {
+              useReducer: function(reducer, initialArg, init) {
                 currentHookNameInDev = "useReducer";
                 warnInvalidHookAccess();
                 updateHookTypesDev();
                 var prevDispatcher = ReactCurrentDispatcher$1.current;
                 ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnUpdateInDEV;
                 try {
-                  return updateReducer(reducer, initialArg, init2);
+                  return updateReducer(reducer, initialArg, init);
                 } finally {
                   ReactCurrentDispatcher$1.current = prevDispatcher;
                 }
@@ -14980,14 +14980,14 @@
                   ReactCurrentDispatcher$1.current = prevDispatcher;
                 }
               },
-              useReducer: function(reducer, initialArg, init2) {
+              useReducer: function(reducer, initialArg, init) {
                 currentHookNameInDev = "useReducer";
                 warnInvalidHookAccess();
                 updateHookTypesDev();
                 var prevDispatcher = ReactCurrentDispatcher$1.current;
                 ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnUpdateInDEV;
                 try {
-                  return rerenderReducer(reducer, initialArg, init2);
+                  return rerenderReducer(reducer, initialArg, init);
                 } finally {
                   ReactCurrentDispatcher$1.current = prevDispatcher;
                 }
@@ -16091,9 +16091,9 @@
                 if (outerMemoType.$$typeof === REACT_LAZY_TYPE) {
                   var lazyComponent = outerMemoType;
                   var payload = lazyComponent._payload;
-                  var init2 = lazyComponent._init;
+                  var init = lazyComponent._init;
                   try {
-                    outerMemoType = init2(payload);
+                    outerMemoType = init(payload);
                   } catch (x) {
                     outerMemoType = null;
                   }
@@ -16473,8 +16473,8 @@
             var props = workInProgress2.pendingProps;
             var lazyComponent = elementType;
             var payload = lazyComponent._payload;
-            var init2 = lazyComponent._init;
-            var Component = init2(payload);
+            var init = lazyComponent._init;
+            var Component = init(payload);
             workInProgress2.type = Component;
             var resolvedTag = workInProgress2.tag = resolveLazyComponentTag(Component);
             var resolvedProps = resolveDefaultProps(Component, props);
@@ -22564,14 +22564,39 @@
   // ../pkg/quircs_wasm.js
   var import_meta = {};
   var wasm;
-  var heap = new Array(32).fill(void 0);
+  var cachedTextDecoder = typeof TextDecoder !== "undefined" ? new TextDecoder("utf-8", { ignoreBOM: true, fatal: true }) : { decode: () => {
+    throw Error("TextDecoder not available");
+  } };
+  if (typeof TextDecoder !== "undefined") {
+    cachedTextDecoder.decode();
+  }
+  var cachedUint8Memory0 = null;
+  function getUint8Memory0() {
+    if (cachedUint8Memory0 === null || cachedUint8Memory0.byteLength === 0) {
+      cachedUint8Memory0 = new Uint8Array(wasm.memory.buffer);
+    }
+    return cachedUint8Memory0;
+  }
+  function getStringFromWasm0(ptr, len) {
+    ptr = ptr >>> 0;
+    return cachedTextDecoder.decode(getUint8Memory0().subarray(ptr, ptr + len));
+  }
+  var heap = new Array(128).fill(void 0);
   heap.push(void 0, null, true, false);
+  var heap_next = heap.length;
+  function addHeapObject(obj) {
+    if (heap_next === heap.length)
+      heap.push(heap.length + 1);
+    const idx = heap_next;
+    heap_next = heap[idx];
+    heap[idx] = obj;
+    return idx;
+  }
   function getObject(idx) {
     return heap[idx];
   }
-  var heap_next = heap.length;
   function dropObject(idx) {
-    if (idx < 36)
+    if (idx < 132)
       return;
     heap[idx] = heap_next;
     heap_next = idx;
@@ -22581,36 +22606,16 @@
     dropObject(idx);
     return ret;
   }
-  var cachedTextDecoder = new TextDecoder("utf-8", { ignoreBOM: true, fatal: true });
-  cachedTextDecoder.decode();
-  var cachegetUint8Memory0 = null;
-  function getUint8Memory0() {
-    if (cachegetUint8Memory0 === null || cachegetUint8Memory0.buffer !== wasm.memory.buffer) {
-      cachegetUint8Memory0 = new Uint8Array(wasm.memory.buffer);
-    }
-    return cachegetUint8Memory0;
-  }
-  function getStringFromWasm0(ptr, len) {
-    return cachedTextDecoder.decode(getUint8Memory0().subarray(ptr, ptr + len));
-  }
-  function addHeapObject(obj) {
-    if (heap_next === heap.length)
-      heap.push(heap.length + 1);
-    const idx = heap_next;
-    heap_next = heap[idx];
-    heap[idx] = obj;
-    return idx;
-  }
   function read_qrcodes_from_image_data(img) {
     const ret = wasm.read_qrcodes_from_image_data(addHeapObject(img));
     return takeObject(ret);
   }
-  var cachegetInt32Memory0 = null;
+  var cachedInt32Memory0 = null;
   function getInt32Memory0() {
-    if (cachegetInt32Memory0 === null || cachegetInt32Memory0.buffer !== wasm.memory.buffer) {
-      cachegetInt32Memory0 = new Int32Array(wasm.memory.buffer);
+    if (cachedInt32Memory0 === null || cachedInt32Memory0.byteLength === 0) {
+      cachedInt32Memory0 = new Int32Array(wasm.memory.buffer);
     }
-    return cachegetInt32Memory0;
+    return cachedInt32Memory0;
   }
   function luma_image_data(img) {
     try {
@@ -22629,19 +22634,20 @@
   }
   var WASM_VECTOR_LEN = 0;
   function passArray8ToWasm0(arg, malloc) {
-    const ptr = malloc(arg.length * 1);
+    const ptr = malloc(arg.length * 1, 1) >>> 0;
     getUint8Memory0().set(arg, ptr / 1);
     WASM_VECTOR_LEN = arg.length;
     return ptr;
   }
-  var cachegetUint8ClampedMemory0 = null;
+  var cachedUint8ClampedMemory0 = null;
   function getUint8ClampedMemory0() {
-    if (cachegetUint8ClampedMemory0 === null || cachegetUint8ClampedMemory0.buffer !== wasm.memory.buffer) {
-      cachegetUint8ClampedMemory0 = new Uint8ClampedArray(wasm.memory.buffer);
+    if (cachedUint8ClampedMemory0 === null || cachedUint8ClampedMemory0.byteLength === 0) {
+      cachedUint8ClampedMemory0 = new Uint8ClampedArray(wasm.memory.buffer);
     }
-    return cachegetUint8ClampedMemory0;
+    return cachedUint8ClampedMemory0;
   }
   function getClampedArrayU8FromWasm0(ptr, len) {
+    ptr = ptr >>> 0;
     return getUint8ClampedMemory0().subarray(ptr / 1, ptr / 1 + len);
   }
   function handleError(f, args) {
@@ -22651,7 +22657,7 @@
       wasm.__wbindgen_exn_store(addHeapObject(e));
     }
   }
-  async function load(module, imports) {
+  async function __wbg_load(module, imports) {
     if (typeof Response === "function" && module instanceof Response) {
       if (typeof WebAssembly.instantiateStreaming === "function") {
         try {
@@ -22675,35 +22681,32 @@
       }
     }
   }
-  async function init(input) {
-    if (typeof input === "undefined") {
-      input = new URL("quircs_wasm_bg.wasm", import_meta.url);
-    }
+  function __wbg_get_imports() {
     const imports = {};
     imports.wbg = {};
-    imports.wbg.__wbindgen_object_drop_ref = function(arg0) {
-      takeObject(arg0);
-    };
     imports.wbg.__wbindgen_json_parse = function(arg0, arg1) {
       const ret = JSON.parse(getStringFromWasm0(arg0, arg1));
       return addHeapObject(ret);
     };
-    imports.wbg.__wbg_width_79fc1a8f0844bcab = function(arg0) {
+    imports.wbg.__wbindgen_object_drop_ref = function(arg0) {
+      takeObject(arg0);
+    };
+    imports.wbg.__wbg_width_c97f89a38a3c1da7 = function(arg0) {
       const ret = getObject(arg0).width;
       return ret;
     };
-    imports.wbg.__wbg_height_7ec049fbe2f66d14 = function(arg0) {
+    imports.wbg.__wbg_height_c8424a3757db7869 = function(arg0) {
       const ret = getObject(arg0).height;
       return ret;
     };
-    imports.wbg.__wbg_data_454197b135a25142 = function(arg0, arg1) {
+    imports.wbg.__wbg_data_eaf4962120932fdc = function(arg0, arg1) {
       const ret = getObject(arg1).data;
-      const ptr0 = passArray8ToWasm0(ret, wasm.__wbindgen_malloc);
-      const len0 = WASM_VECTOR_LEN;
-      getInt32Memory0()[arg0 / 4 + 1] = len0;
-      getInt32Memory0()[arg0 / 4 + 0] = ptr0;
+      const ptr1 = passArray8ToWasm0(ret, wasm.__wbindgen_malloc);
+      const len1 = WASM_VECTOR_LEN;
+      getInt32Memory0()[arg0 / 4 + 1] = len1;
+      getInt32Memory0()[arg0 / 4 + 0] = ptr1;
     };
-    imports.wbg.__wbg_newwithu8clampedarrayandsh_87d2f0a48030f922 = function() {
+    imports.wbg.__wbg_newwithu8clampedarrayandsh_e2b3fce567acd708 = function() {
       return handleError(function(arg0, arg1, arg2, arg3) {
         const ret = new ImageData(getClampedArrayU8FromWasm0(arg0, arg1), arg2 >>> 0, arg3 >>> 0);
         return addHeapObject(ret);
@@ -22712,15 +22715,33 @@
     imports.wbg.__wbindgen_throw = function(arg0, arg1) {
       throw new Error(getStringFromWasm0(arg0, arg1));
     };
+    return imports;
+  }
+  function __wbg_init_memory(imports, maybe_memory) {
+  }
+  function __wbg_finalize_init(instance, module) {
+    wasm = instance.exports;
+    __wbg_init.__wbindgen_wasm_module = module;
+    cachedInt32Memory0 = null;
+    cachedUint8Memory0 = null;
+    cachedUint8ClampedMemory0 = null;
+    return wasm;
+  }
+  async function __wbg_init(input) {
+    if (wasm !== void 0)
+      return wasm;
+    if (typeof input === "undefined") {
+      input = new URL("quircs_wasm_bg.wasm", import_meta.url);
+    }
+    const imports = __wbg_get_imports();
     if (typeof input === "string" || typeof Request === "function" && input instanceof Request || typeof URL === "function" && input instanceof URL) {
       input = fetch(input);
     }
-    const { instance, module } = await load(await input, imports);
-    wasm = instance.exports;
-    init.__wbindgen_wasm_module = module;
-    return wasm;
+    __wbg_init_memory(imports);
+    const { instance, module } = await __wbg_load(await input, imports);
+    return __wbg_finalize_init(instance, module);
   }
-  var quircs_wasm_default = init;
+  var quircs_wasm_default = __wbg_init;
 
   // index.tsx
   async function get_video_devices() {
