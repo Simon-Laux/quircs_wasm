@@ -11,6 +11,8 @@ wasm bindings for the [quircs](https://github.com/dignifiedquire/quircs) qrcode 
 ```ts
 import init, { read_qrcodes_from_image_data } from "quircs-wasm";
 
+await init("./quircs_wasm_bg.wasm");
+
 var context = canvas.getContext("2d");
 // draw your image onto the canvas (from an image file or video input of a camera)
 // context.drawImage(video, 0, 0, canvas.width, canvas.height);
